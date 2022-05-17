@@ -13,42 +13,33 @@ void Pizza::box() const {
     std::cout << "Place pizza in official PizzaStore box" << std::endl;
 }
 
+void Pizza::setName(const std::string& name) {
+    this->name = name;
+}
+
 std::string Pizza::getName() const {
     return name;
 }
 
-void Pizza::prepare() const {
+CheesePizza::CheesePizza(std::shared_ptr<PizzaIngredientFactory> ingredientFactory) {
+    this->ingredientFactory = ingredientFactory;
+}
+
+void CheesePizza::prepare() {
     std::cout << "Preparing " << name << std::endl;
-    std::cout << "Tossing dough..." << std::endl;
-    std::cout << "Adding sauce..." << std::endl;
-    std::cout << "Adding toppings: " << std::endl;
-    for (const auto& topping : toppings) {
-        std::cout << "   " << topping;
-    }
-    std::cout<< std::endl;
+    dough = ingredientFactory->createDough();
+    sauce = ingredientFactory->createSauce();
+    cheese = ingredientFactory->createCheese();
 }
 
-NYStyleCheesePizza::NYStyleCheesePizza() {
-    name = "NY Style Sauce and Cheese Pizza";
-    dough = "Thin Crust Dough";
-    sauce = "Marianara Sauce";
-    toppings = std::vector<std::string>({"Grated Reggiano Cheese"});
+ClamPizza::ClamPizza(std::shared_ptr<PizzaIngredientFactory> ingredientFactory) {
+    this->ingredientFactory = ingredientFactory;
 }
 
-ChicagoStyleCheesePizza::ChicagoStyleCheesePizza() {
-    name = "Chicago Style Deep Dish Cheese Pizza";
-    dough = "Extra Thick Crust Dough";
-    sauce = "Plum Tomato Sauce";
-    toppings = std::vector<std::string>({"Shredded mozzarella Cheese"});
-}
-
-void ChicagoStyleCheesePizza::cut() const {
-    std::cout << "Cutting the pizza into square slices" << std::endl;
-}
-
-CheesePizza::CheesePizza() {
-    name = "Cheese Pizza";
-    dough = "Thin Crust Dough";
-    sauce = "Sauce";
-    toppings = std::vector<std::string>({"Classical Cheese"});
+void ClamPizza::prepare() {
+    std::cout << "Preparing " << name << std::endl;
+    dough = ingredientFactory->createDough();
+    sauce = ingredientFactory->createSauce();
+    cheese = ingredientFactory->createCheese();
+    clam = ingredientFactory->createClam();
 }

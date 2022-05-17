@@ -14,18 +14,16 @@ std::shared_ptr<Pizza> PizzaStore::orderPizza(const std::string& type) {
 }
 
 
-std::shared_ptr<Pizza> NYPizzaStore::createPizza(const std::string &type) const {
-    if (type == "cheese") {
-        return std::make_shared<NYStyleCheesePizza>(NYStyleCheesePizza());
-    } else {
-        return nullptr;
-    }
-}
+std::shared_ptr<Pizza> NYPizzaStore::createPizza(const std::string &item) const {
+    std::shared_ptr<Pizza> pizza ;
+    std::shared_ptr<PizzaIngredientFactory> ingredientFactory = std::make_shared<NYPizzaIngredientFactory>();
 
-std::shared_ptr<Pizza> ChicagoPizzaStore::createPizza(const std::string &type) const {
-    if (type == "cheese") {
-        return std::make_shared<ChicagoStyleCheesePizza>(ChicagoStyleCheesePizza());
-    } else {
-        return nullptr;
+    if (item == "cheese") {
+        pizza = std::make_shared<CheesePizza>(ingredientFactory);
+        pizza->setName("New York Style Cheese Pizza");
+    } else if (item == "clam") {
+        pizza = std::make_shared<ClamPizza>(ingredientFactory);
+        pizza->setName("New York Style Clam Pizza");
     }
+    return pizza;
 }
